@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCM Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: center; /* Center align content */
+        }
+        input[type="text"] {
+            width: calc(100% - 20px); /* Subtract padding from the width */
+            padding: 8px;
+            margin-bottom: 10px;
+            margin-right: 10px; /* Add margin between the text box and button */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            text-align: center; /* Center align text within input */
+        }
+        button {
+            width: calc(100% - 20px); /* Subtract padding from the width */
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            font-style: italic;
+        }
+        
+    /* Footer styles */
+    .footer {
+        position: absolute; /* Position relative to the container */
+        bottom: 0; /* Align to the bottom */
+        width: 100%; /* Full width */
+        background-color: #333; /* Grey background color */
+        color: #fff; /* White text color */
+    }
+    .footer-content {
+        padding: 10px 0; /* Add padding */
+    }
+    .footer-text {
+        font-size: 14px;
+        margin: 0; /* Remove default margin */
+    }
+    .footer-name {
+        font-weight: bold;
+    }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h2>LCM Calculator</h2>
+        <label for="numbers">Enter numbers (comma-separated):</label>
+        <input type="text" id="numbers" >
+        <button onclick="calculateLCM()">Calculate LCM</button>
+        <p id="result"></p>
+        <p id="error" class="error"></p>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">Done by <span class="footer-name">SHAIK THARIMUNNISHA</span></p>
+        </div>
+    <script>
+        function calculateLCM() {
+            var input = document.getElementById('numbers').value;
+            var numbers = input.split(',').map(function(num) {
+                return parseInt(num.trim());
+            });
+
+            if (!isValidInput(numbers)) {
+                document.getElementById('result').innerText = "";
+                document.getElementById('error').innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            document.getElementById('error').innerText = "";
+
+            var lcm = calculateMultipleLCM(numbers);
+            document.getElementById('result').innerText = "LCM of " + numbers.join(', ') + " is: " + lcm;
+        }
+
+        function isValidInput(numbers) {
+            return numbers.every(function(num) {
+                return !isNaN(num) && Number.isInteger(num) && num > 0;
+            });
+        }
+
+        function calculateMultipleLCM(numbers) {
+            var lcm = numbers[0];
+            for (var i = 1; i < numbers.length; i++) {
+                var currentNum = numbers[i];
+                var gcdVal = gcd(lcm, currentNum);
+                lcm = (lcm * currentNum) / gcdVal;
+            }
+            return lcm;
+        }
+
+        function gcd(x, y) {
+            while (y !== 0) {
+                var temp = y;
+                y = x % y;
+                x = temp;
+            }
+            return x;
+        }
+    </script>
+</body>
+</html>
